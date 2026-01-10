@@ -12,30 +12,24 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// 2. CẤU HÌNH IDENTITY
 builder.Services.AddDefaultIdentity<IdentityUser>(options => 
     {
         options.SignIn.RequireConfirmedAccount = true;
         options.Password.RequireDigit = false;
         options.Password.RequiredLength = 6;
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders(); 
 
-// 3. CẤU HÌNH EMAIL SERVICE
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 
-// --- ĐOẠN QUAN TRỌNG ĐỂ FIX LỖI ---
-// Chỉ định rõ namespace đầy đủ để tránh xung đột
 builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailSender>();
-// -----------------------------------
 
-// 4. THÊM MVC & RAZOR PAGES
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// --- PIPELINE ---
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
