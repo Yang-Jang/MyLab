@@ -1,0 +1,17 @@
+@model Bai4.ViewModels.CreateRoleViewModel
+
+<h2>Tạo Role mới</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateRole" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="RoleName"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Tạo Role</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Bảng điều khiển (Dashboard)</h1>
+    <div class="row">
+        
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Tài khoản cá nhân</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Quản lý thông tin cá nhân và bảo mật.</p>
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-outline-primary">Đổi mật khẩu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Admin")) 
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="card-title mb-0">Quản trị Hệ thống</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Quản lý Role và Phân quyền người dùng.</p>
+                        <div class="d-grid gap-2">
+                            <a asp-controller="Administration" asp-action="ListRoles" class="btn btn-outline-danger">Quản lý Roles</a>
+                            <a asp-controller="Administration" asp-action="CreateRole" class="btn btn-outline-danger">Tạo Role mới</a>
+                            <a asp-controller="Administration" asp-action="ListUsers" class="btn btn-outline-warning text-dark">Phân quyền User</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
