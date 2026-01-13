@@ -73,7 +73,24 @@ namespace Bai4.Controllers
         public async Task<IActionResult> ListUsers()
         {
             var users = await _userManager.Users.ToListAsync();
-            return View(users);
+    var model = new List<UserWithRolesViewModel>();
+
+    foreach (var user in users)
+    {
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var userViewModel = new UserWithRolesViewModel
+        {
+            UserId = user.Id,
+            Username = user.UserName,
+            Email = user.Email,
+            Roles = string.Join(", ", roles) 
+        };
+
+        model.Add(userViewModel);
+    }
+
+    return View(model);
         }
 
         [HttpGet]
@@ -145,7 +162,7 @@ namespace Bai4.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("ListUsers"); // Xong thì quay lại danh sách user
+            return RedirectToAction("ListUsers"); 
         }
     }
 }

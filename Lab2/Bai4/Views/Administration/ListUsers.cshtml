@@ -1,26 +1,57 @@
-@using Microsoft.AspNetCore.Identity
-@model IEnumerable<ApplicationUser>
+@model IEnumerable<Bai4.ViewModels.UserWithRolesViewModel>
+
+@{
+    ViewData["Title"] = "Danh sách người dùng";
+}
 
 <h2>Danh sách Người dùng</h2>
 
 @if (Model.Any())
 {
-    <table class="table table-bordered table-hover">
-        <thead>
+    <table class="table table-bordered table-hover mt-3">
+        <thead class="table-dark">
             <tr>
                 <th>User Name</th>
                 <th>Email</th>
-                <th>Hành động</th>
+                <th>Phân quyền (Roles)</th> 
+                <th style="width: 150px;">Hành động</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var user in Model)
             {
                 <tr>
-                    <td>@user.UserName</td>
+                    <td>@user.Username</td>
                     <td>@user.Email</td>
                     <td>
-                        <a asp-controller="Administration" asp-action="ManageUserRoles" asp-route-userId="@user.Id" class="btn btn-warning btn-sm">Phân quyền</a>
+                        @if (!string.IsNullOrEmpty(user.Roles))
+                        {
+                            var roleList = user.Roles.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            foreach (var role in roleList)
+                            {
+                                var roleName = role.Trim();  
+                                string badgeClass = "bg-success";  
+
+                                 if (roleName == "Admin")
+                                {
+                                    badgeClass = "bg-danger";  
+                                }
+                                else if (roleName == "User")
+                                {
+                                    badgeClass = "bg-primary";  
+                                }
+                                
+                                <span class="badge @badgeClass me-1">@roleName</span>
+                            }
+                        }
+                        else
+                        {
+                            <span class="text-muted fst-italic">Chưa phân quyền</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Administration" asp-action="ManageUserRoles" asp-route-userId="@user.UserId" class="btn btn-warning btn-sm">Phân quyền</a>
                     </td>
                 </tr>
             }
@@ -29,5 +60,9 @@
 }
 else
 {
-    <p>Chưa có user nào.</p>
+    <div class="card">
+        <div class="card-body">
+            Chưa có user nào trong hệ thống.
+        </div>
+    </div>
 }
