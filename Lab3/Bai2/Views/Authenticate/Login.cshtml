@@ -1,0 +1,66 @@
+@model Bai2.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng Nhập";
+    string mintColor = "#5FDEC9"; 
+}
+
+<style>
+    .form-control:focus {
+        border-color: @mintColor;
+        box-shadow: 0 0 0 0.2rem rgba(95, 222, 201, 0.25);
+    }
+    
+    .text-mint {
+        color: @mintColor !important;
+    }
+
+    .bg-mint {
+        background-color: @mintColor !important;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+    <div class="card shadow-lg border-0" style="width: 400px; border-radius: 20px; overflow: hidden;">
+        
+        <div class="card-header text-center text-white py-4 bg-mint border-0">
+            <h3 class="fw-bold mb-0" style="letter-spacing: 1px;">WELCOME</h3>
+            <small style="opacity: 0.9;">Đăng nhập hệ thống</small>
+        </div>
+
+        <div class="card-body p-4 bg-white">
+            <form asp-action="Login" method="post">
+                
+                <div asp-validation-summary="All" class="text-danger mb-3 small"></div>
+
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label text-secondary fw-bold small">EMAIL</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fa fa-envelope text-muted"></i></span>
+                        <input asp-for="Email" class="form-control border-start-0 rounded-end-pill" placeholder="name@example.com" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label text-secondary fw-bold small">PASSWORD</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fa fa-lock text-muted"></i></span>
+                        <input asp-for="Password" type="password" class="form-control border-start-0 rounded-end-pill" placeholder="********" />
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn text-white fw-bold rounded-pill py-2 bg-mint" style="border: none; box-shadow: 0 4px 6px rgba(95, 222, 201, 0.4);">
+                        ĐĂNG NHẬP
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="card-footer text-center bg-white border-0 pb-4">
+            <small class="text-muted">Chưa có tài khoản? <a asp-action="Register" class="text-decoration-none fw-bold text-mint">Đăng ký ngay</a></small>
+        </div>
+    </div>
+</div>

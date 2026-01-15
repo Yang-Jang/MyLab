@@ -1,0 +1,130 @@
+@model Bai2.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng Ký";
+    string mintColor = "#5FDEC9";
+}
+
+<style>
+    .form-control:focus {
+        border-color: @mintColor;
+        box-shadow: 0 0 0 0.2rem rgba(95, 222, 201, 0.25);
+    }
+    .bg-mint { background-color: @mintColor !important; }
+    .text-mint { color: @mintColor !important; }
+    
+    .progress {
+        height: 6px;
+        border-radius: 10px;
+        background-color: #e9ecef;
+        overflow: hidden;
+    }
+    .progress-bar {
+        transition: width 0.3s ease, background-color 0.3s ease;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+    <div class="card shadow-lg border-0" style="width: 400px; border-radius: 20px; overflow: hidden;">
+        
+        <div class="card-header text-center text-white py-4 bg-mint border-0">
+            <h3 class="fw-bold mb-0">REGISTER</h3>
+            <small>Tạo tài khoản mới</small>
+        </div>
+
+        <div class="card-body p-4 bg-white">
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3 small"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label text-secondary fw-bold small">EMAIL</label>
+                    <input asp-for="Email" class="form-control rounded-pill" placeholder="name@example.com" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label text-secondary fw-bold small">PASSWORD</label>
+                    <input asp-for="Password" type="password" class="form-control rounded-pill mb-2" id="passwordInput" placeholder="********" />
+                    
+                    <div class="progress mb-1 d-none" id="passwordStrengthContainer">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" id="passwordStrengthBar"></div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted" style="font-size: 0.75rem;">* Ít nhất 6 ký tự</small>
+                        <small id="passwordFeedback" class="fw-bold" style="font-size: 0.75rem;"></small>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn text-white fw-bold rounded-pill py-2 bg-mint" style="box-shadow: 0 4px 6px rgba(95, 222, 201, 0.4);">
+                        ĐĂNG KÝ NGAY
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="card-footer text-center bg-white border-0 pb-4">
+            <small class="text-muted">Đã có tài khoản? <a asp-action="Login" class="text-decoration-none fw-bold text-mint">Đăng nhập</a></small>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const passwordInput = document.getElementById('passwordInput');
+        const strengthBar = document.getElementById('passwordStrengthBar');
+        const container = document.getElementById('passwordStrengthContainer');
+        const feedback = document.getElementById('passwordFeedback');
+
+        passwordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            let strength = 0;
+
+            if (password.length === 0) {
+                container.classList.add('d-none');
+                feedback.innerText = "";
+                return;
+            } else {
+                container.classList.remove('d-none');
+            }
+
+            if (password.length >= 6) strength += 1;  
+            if (password.match(/[a-z]+/)) strength += 1;  
+            if (password.match(/[A-Z]+/)) strength += 1;  
+            if (password.match(/[0-9]+/)) strength += 1; 
+            if (password.match(/[$@@#&!]+/)) strength += 1; 
+
+            let width = '0%';
+            let color = '';
+            let text = '';
+
+            switch (strength) {
+                case 0:
+                case 1:
+                case 2:
+                    width = '30%';
+                    color = '#dc3545'; 
+                    text = 'Yếu';
+                    feedback.style.color = color;
+                    break;
+                case 3:
+                case 4:
+                    width = '60%';
+                    color = '#ffc107'; 
+                    text = 'Trung bình';
+                    feedback.style.color = color;
+                    break;
+                case 5:
+                    width = '100%';
+                    color = '#5FDEC9'; 
+                    text = 'Rất mạnh';
+                    feedback.style.color = color;
+                    break;
+            }
+
+            strengthBar.style.width = width;
+            strengthBar.style.backgroundColor = color;
+            feedback.innerText = text;
+        });
+    });
+</script>
