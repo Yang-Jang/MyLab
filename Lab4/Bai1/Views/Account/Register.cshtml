@@ -1,0 +1,62 @@
+@{ ViewData["Title"] = "Đăng ký"; }
+
+<div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-5 col-sm-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <div class="d-inline-flex justify-content-center align-items-center bg-mint-light rounded-circle mb-3" style="width: 80px; height: 80px;">
+                    <i class="fa-solid fa-user-plus fa-2x text-mint"></i>
+                </div>
+                <h3 class="fw-bold text-dark">Tạo tài khoản</h3>
+                <p class="text-muted small">Tham gia cùng chúng tôi</p>
+            </div>
+            
+            <div class="card-body px-4 pb-5">
+                <form method="post">
+                    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold text-muted small ms-2">EMAIL</label>
+                        <div class="input-group">
+                            <span class="input-group-text ps-3">
+                                <i class="fa-solid fa-at"></i>
+                            </span>
+                            <input name="email" type="email" class="form-control" placeholder="name@example.com" required />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold text-muted small ms-2">MẬT KHẨU</label>
+                        <div class="input-group">
+                            <span class="input-group-text ps-3">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input name="password" type="password" class="form-control" placeholder="Mật khẩu..." required />
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label fw-bold text-muted small ms-2">XÁC NHẬN MẬT KHẨU</label>
+                        <div class="input-group">
+                            <span class="input-group-text ps-3">
+                                <i class="fa-solid fa-check-double"></i> </span>
+                            <input name="confirmPassword" type="password" class="form-control" placeholder="Nhập lại mật khẩu..." required />
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                            ĐĂNG KÝ
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a asp-action="Login" class="fw-bold small">
+                            Đã có tài khoản? <span class="text-decoration-underline">Đăng nhập</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

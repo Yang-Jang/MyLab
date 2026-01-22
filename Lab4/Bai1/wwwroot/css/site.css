@@ -1,0 +1,108 @@
+/* --- BẢNG MÀU MINT (XANH BẠC HÀ) --- */
+:root {
+    --mint-primary: #4ecdc4;       /* Màu chính (Nút, Icon, Viền) */
+    --mint-dark: #2cb5ac;          /* Màu khi hover (Đậm hơn chút) */
+    --mint-bg: #e8f8f5;            /* Màu nền trang (Mint cực nhạt) */
+    --white: #ffffff;
+    --text-dark: #2d3436;
+    --text-muted: #636e72;
+}
+
+body {
+    background-color: var(--mint-bg) !important;
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- BUTTONS (GHI ĐÈ BOOTSTRAP) --- */
+/* Biến nút Primary (Xanh dương) thành Mint */
+.btn-primary {
+    background-color: var(--mint-primary) !important;
+    border-color: var(--mint-primary) !important;
+    color: var(--white) !important;
+    border-radius: 50px !important; /* Bo tròn viên thuốc */
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--mint-dark) !important;
+    border-color: var(--mint-dark) !important;
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.4); /* Đổ bóng xanh mint */
+    transform: translateY(-2px);
+}
+
+/* --- INPUTS & FORMS --- */
+.form-control {
+    border-radius: 15px !important; /* Bo tròn ô nhập */
+    border: 1px solid #dfe6e9;
+    padding: 12px 15px;
+}
+
+.form-control:focus {
+    border-color: var(--mint-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(78, 205, 196, 0.25) !important; /* Glow màu mint */
+}
+
+/* Input Group (Icon dính liền Input) */
+
+.input-group .input-group-text {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important; /* Xóa viền phải để nối liền */
+    border-color: #dfe6e9; /* Màu viền nhạt cho đồng bộ */
+}
+
+.input-group .form-control {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: none !important; /* Xóa viền trái để nối liền */
+    border-color: #dfe6e9;
+}
+
+.input-group:focus-within .input-group-text,
+.input-group:focus-within .form-control {
+    border-color: var(--mint-primary) !important;
+    box-shadow: none !important; /* Tắt bóng mặc định của bootstrap */
+}
+
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.2rem rgba(78, 205, 196, 0.25) !important;
+    border-radius: 15px;
+}
+
+
+/* --- CARDS --- */
+.card {
+    border: none !important;
+    border-radius: 25px !important; /* Bo tròn góc thẻ */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+    background-color: var(--white);
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--white) !important;
+    border-bottom: none !important;
+    padding-top: 2rem !important;
+}
+
+/* --- TEXT & LINKS --- */
+a {
+    color: var(--mint-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--mint-dark);
+}
+
+.text-mint {
+    color: var(--mint-primary) !important;
+}
+
+.bg-mint-light {
+    background-color: rgba(78, 205, 196, 0.1) !important; /* Nền mờ cho icon tròn */
+}

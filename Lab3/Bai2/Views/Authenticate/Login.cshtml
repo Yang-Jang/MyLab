@@ -20,7 +20,7 @@
     }
 </style>
 
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh; background-color: #f8f9fa;">
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card shadow-lg border-0" style="width: 400px; border-radius: 20px; overflow: hidden;">
         
         <div class="card-header text-center text-white py-4 bg-mint border-0">
@@ -38,16 +38,14 @@
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label text-secondary fw-bold small">EMAIL</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fa fa-envelope text-muted"></i></span>
-                        <input asp-for="Email" class="form-control border-start-0 rounded-end-pill" placeholder="name@example.com" />
+                        <input asp-for="Email" class="form-control rounded-pill" placeholder="name@gmail.com" />
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="Password" class="form-label text-secondary fw-bold small">PASSWORD</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0 rounded-start-pill ps-3"><i class="fa fa-lock text-muted"></i></span>
-                        <input asp-for="Password" type="password" class="form-control border-start-0 rounded-end-pill" placeholder="********" />
+                        <input asp-for="Password" type="password" class="form-control rounded-pill" placeholder="********" />
                     </div>
                 </div>
 

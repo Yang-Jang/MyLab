@@ -1,0 +1,38 @@
+@model Bai1.Models.Product
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header text-center">
+                <h3><i class="fa-solid fa-cart-plus"></i> Thêm sản phẩm</h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Tên sản phẩm</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-signature"></i></span>
+                            <input asp-for="Name" class="form-control" placeholder="Nhập tên sản phẩm..." />
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="form-label fw-bold">Giá bán (VNĐ)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-dong-sign"></i></span>
+                            <input asp-for="Price" type="number" class="form-control" placeholder="Nhập giá..." />
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fa-solid fa-save"></i> Lưu sản phẩm
+                        </button>
+                        <a asp-action="Index" class="btn btn-light text-secondary">
+                            <i class="fa-solid fa-arrow-left"></i> Quay lại
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

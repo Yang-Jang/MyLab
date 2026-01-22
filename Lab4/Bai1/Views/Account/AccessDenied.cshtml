@@ -1,0 +1,33 @@
+@{ ViewData["Title"] = "Access Denied"; }
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="text-center col-md-8">
+        
+        <div class="card shadow-lg p-5 border-0">
+            <div class="mb-4">
+                <div class="d-inline-flex justify-content-center align-items-center rounded-circle" style="background-color: #fee2e2; width: 100px; height: 100px;">
+                    <i class="fa-solid fa-ban fa-4x text-danger opacity-75"></i>
+                </div>
+            </div>
+            
+            <h1 class="fw-bold mb-3" style="color: var(--text-dark);">Không có quyền truy cập</h1>
+            
+            <p class="lead text-muted mb-4">
+                Xin lỗi, tài khoản của bạn không có đủ quyền hạn (Claims) để truy cập vào khu vực này.
+                <br>
+                <small class="fst-italic">Vui lòng liên hệ Quản trị viên để được cấp quyền.</small>
+            </p>
+
+            <div class="d-flex justify-content-center gap-3">
+                <a href="javascript:history.back()" class="btn btn-light text-muted border px-4 rounded-pill fw-bold">
+                    <i class="fa-solid fa-arrow-left me-2"></i> Quay lại
+                </a>
+                
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary px-4 rounded-pill fw-bold shadow-sm">
+                    <i class="fa-solid fa-house me-2"></i> Về trang chủ
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

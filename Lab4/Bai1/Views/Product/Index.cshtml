@@ -1,0 +1,63 @@
+@model IEnumerable<Bai1.Models.Product>
+@using System.Security.Claims
+
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var isAdmin = User.HasClaim(c => c.Type == "Admin");
+    var isSale = User.HasClaim(c => c.Type == "Sales");
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4 text-mint"><i class="fa-solid fa-box-open"></i> Danh sách sản phẩm</h2>
+
+    @if (isAdmin || isSale)
+    {
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fa-solid fa-plus-circle"></i> Thêm sản phẩm mới
+            </a>
+        </div>
+    }
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><i class="fa-solid fa-tag"></i> Tên sản phẩm</th>
+                <th><i class="fa-solid fa-money-bill-wave"></i> Giá</th>
+                <th class="text-center">Tác vụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                // Kiểm tra quyền sở hữu cho từng dòng
+                bool isOwner = item.CreatedBy == currentUserId;
+                bool canAction = isAdmin || (isSale && isOwner);
+
+                <tr>
+                    <td class="align-middle">@item.Name</td>
+                    <td class="align-middle fw-bold text-success">
+                        @item.Price.ToString("#,##0") VNĐ
+                    </td>
+                    <td class="text-center">
+                        @if (canAction)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-2 me-1">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info rounded-pill px-2 me-1">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger rounded-pill px-2">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted small fst-italic">Chỉ xem</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

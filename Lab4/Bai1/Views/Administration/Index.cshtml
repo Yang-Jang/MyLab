@@ -1,0 +1,40 @@
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+<div class="container mt-4">
+    <h2 class="mb-4" style="color: var(--mint-hover);">
+        <i class="fa-solid fa-users-gear"></i> Quản lý Users
+    </h2>
+    
+    <a asp-action="CreateTestUser" class="btn btn-success mb-3 shadow-sm">
+        <i class="fa-solid fa-user-plus"></i> Tạo User Test
+    </a>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td class="align-middle text-muted small">@user.Id</td>
+                            <td class="align-middle fw-bold">@user.Email</td>
+                            <td class="text-center">
+                                <a asp-action="ManageUserClaims" asp-route-userId="@user.Id" 
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-shield-halved"></i> Manage Claims
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+@model Bai1.Models.Product
+
+@{ ViewData["Title"] = "Xóa sản phẩm"; }
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-white text-center pt-4 border-0">
+                <div class="d-inline-flex justify-content-center align-items-center rounded-circle mb-3" style="background-color: #fee2e2; width: 80px; height: 80px;">
+                    <i class="fa-solid fa-trash-can fa-3x text-danger opacity-75"></i>
+                </div>
+                <h3 class="fw-bold text-danger">Xóa sản phẩm?</h3>
+                <p class="text-muted">Hành động này không thể hoàn tác!</p>
+            </div>
+
+            <div class="card-body px-4 text-center">
+                <div class="bg-light p-3 rounded-4 mb-4">
+                    <h5 class="fw-bold text-dark mb-1">@Model.Name</h5>
+                    <p class="text-success fw-bold fs-5 mb-0">
+                        @Model.Price.ToString("#,##0") VNĐ
+                    </p>
+                </div>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+                    
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-action="Index" class="btn btn-light border text-muted px-4 rounded-pill fw-bold">
+                            <i class="fa-solid fa-xmark me-2"></i> Không, quay lại
+                        </a>
+                        <button type="submit" class="btn btn-danger px-4 rounded-pill fw-bold shadow-sm">
+                            <i class="fa-solid fa-trash me-2"></i> Có, xóa ngay
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
