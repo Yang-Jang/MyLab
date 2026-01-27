@@ -1,0 +1,189 @@
+@model FastFoodOnline.Web.ViewModels.CheckoutViewModel
+@{
+    ViewData["Title"] = "Thanh toán";
+    decimal total = Model.Cart?.Items?.Sum(i => i.Quantity * i.UnitPrice) ?? 0;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/checkout.css" asp-append-version="true" />
+}
+
+<div class="container sf-container">
+    <div class="sf-checkout">
+        <div class="row g-3">
+            <!-- Bên trái -->
+            <div class="col-12 col-lg-7">
+                <div class="sf-card">
+                    <div class="sf-card-head">
+                        <div class="sf-card-title">
+                            <i class="fa-solid fa-truck-fast me-2"></i>Thông tin giao hàng
+                        </div>
+                    </div>
+
+                    <div class="sf-card-body">
+                        <form asp-action="Processing" method="post" id="checkoutForm">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                            <div class="sf-field">
+                                <label asp-for="FullName" class="sf-label">Họ và tên</label>
+                                <div class="sf-input-group">
+                                    <i class="fa-regular fa-id-badge sf-input-icon"></i>
+                                    <input asp-for="FullName" class="form-control sf-input" placeholder="Nhập họ và tên người nhận" />
+                                </div>
+                                <span asp-validation-for="FullName" class="text-danger small"></span>
+                            </div>
+
+                            <div class="sf-field">
+                                <label asp-for="Phone" class="sf-label">Số điện thoại</label>
+                                <div class="sf-input-group">
+                                    <i class="fa-solid fa-phone sf-input-icon"></i>
+                                    <input asp-for="Phone" class="form-control sf-input" placeholder="VD: 090xxxxxxx" />
+                                </div>
+                                <span asp-validation-for="Phone" class="text-danger small"></span>
+                            </div>
+
+                            <div class="sf-field">
+                                <label asp-for="Address" class="sf-label">Địa chỉ giao hàng</label>
+                                <div class="sf-input-group sf-textarea">
+                                    <i class="fa-solid fa-location-dot sf-input-icon"></i>
+                                    <textarea asp-for="Address"
+                                              class="form-control sf-input sf-textarea-input"
+                                              rows="3"
+                                              placeholder="Số nhà, đường, phường/xã, quận/huyện..."></textarea>
+                                </div>
+                                <span asp-validation-for="Address" class="text-danger small"></span>
+                            </div>
+
+                            <div class="sf-divider-line"><span>Phương thức thanh toán</span></div>
+
+                            <div class="sf-pay-grid">
+                                <label class="sf-pay-tile">
+                                    <input class="sf-pay-radio" type="radio" asp-for="PaymentMethod" value="COD" checked />
+                                    <span class="sf-pay-ui">
+                                        <span class="sf-pay-ic"><i class="fa-solid fa-money-bill-wave"></i></span>
+                                        <span class="sf-pay-text">
+                                            <span class="sf-pay-name">Tiền mặt khi nhận hàng (COD)</span>
+                                            <span class="sf-pay-sub">Thanh toán khi giao hàng</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="sf-pay-tile">
+                                    <input class="sf-pay-radio" type="radio" asp-for="PaymentMethod" value="MoMo" />
+                                    <span class="sf-pay-ui">
+                                        <span class="sf-pay-ic sf-pay-brand">
+                                            <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="MoMo" />
+                                        </span>
+                                        <span class="sf-pay-text">
+                                            <span class="sf-pay-name">Ví MoMo</span>
+                                            <span class="sf-pay-sub">Thanh toán qua ví điện tử</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="sf-pay-tile">
+                                    <input class="sf-pay-radio" type="radio" asp-for="PaymentMethod" value="VNPay" />
+                                    <span class="sf-pay-ui">
+                                        <span class="sf-pay-ic sf-pay-brand">
+                                            <img src="https://vnpay.vn/assets/images/logo-icon/logo-primary.svg" alt="VNPay" />
+                                        </span>
+                                        <span class="sf-pay-text">
+                                            <span class="sf-pay-name">VNPay QR</span>
+                                            <span class="sf-pay-sub">Quét QR để thanh toán</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="sf-pay-tile">
+                                    <input class="sf-pay-radio" type="radio" asp-for="PaymentMethod" value="ZaloPay" />
+                                    <span class="sf-pay-ui">
+                                        <span class="sf-pay-ic"><i class="fa-solid fa-qrcode"></i></span>
+                                        <span class="sf-pay-text">
+                                            <span class="sf-pay-name">ZaloPay</span>
+                                            <span class="sf-pay-sub">Thanh toán nhanh, tiện lợi</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="d-none">Gửi</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bên phải -->
+            <div class="col-12 col-lg-5">
+                <div class="sf-card sf-sticky">
+                    <div class="sf-card-head">
+                        <div class="sf-card-title">
+                            <i class="fa-solid fa-receipt me-2"></i>Tóm tắt đơn hàng
+                        </div>
+                    </div>
+
+                    <div class="sf-card-body">
+                        <div class="sf-summary">
+                            @foreach (var item in Model.Cart.Items)
+                            {
+                                <div class="sf-summary-item">
+                                    <div class="sf-summary-left">
+                                        <div class="sf-summary-name">
+                                            @if (item.Food != null)
+                                            {
+                                                @item.Food.Name
+                                            }
+                                            else
+                                            {
+
+                                                @item.Combo.Name
+                                            }
+                                        </div>
+                                        <div class="sf-summary-sub">Số lượng: @item.Quantity</div>
+                                    </div>
+                                    <div class="sf-summary-right">
+                                        @((item.Quantity * item.UnitPrice).ToString("N0")) đ
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="sf-summary-line"></div>
+
+                            <div class="sf-summary-row">
+                                <span class="sf-muted">Tạm tính</span>
+                                <span class="fw-bold">@total.ToString("N0") đ</span>
+                            </div>
+
+                            <div class="sf-summary-row">
+                                <span class="sf-muted">Phí giao hàng</span>
+                                <span class="fw-bold">0 đ</span>
+                            </div>
+
+                            <div class="sf-summary-row sf-summary-total">
+                                <span>Tổng cộng</span>
+                                <span class="sf-total">@total.ToString("N0") đ</span>
+                            </div>
+
+                            <button type="submit" form="checkoutForm" class="btn sf-btn-primary sf-btn-lg w-100 mt-2">
+                                <i class="fa-solid fa-bag-shopping me-2"></i>Đặt hàng
+                            </button>
+
+                            <div class="sf-summary-note">
+                                Bằng việc nhấn <strong>Đặt hàng</strong>, bạn đồng ý với các điều khoản mua hàng.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sf-help mt-3">
+                    <i class="fa-solid fa-circle-info me-2"></i>
+                    Cần hỗ trợ? Liên hệ <strong>1900-xxxx</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

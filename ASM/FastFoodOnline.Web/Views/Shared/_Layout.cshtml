@@ -1,0 +1,234 @@
+﻿@{
+    var title = ViewData["Title"] as string ?? "FastFood Online";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title - FastFood Online</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shopeefood.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<partial name="_Toast" />
+
+
+<body class="sf-body">
+    <!-- Top bar -->
+    <div class="sf-topbar d-none d-md-block">
+        <div class="container sf-container">
+            <div class="d-flex align-items-center justify-content-between py-2">
+                <div class="sf-topbar-left">
+                    <i class="fa-solid fa-location-dot me-2"></i>
+                    <span class="fw-semibold">Giao đến:</span>
+                    <button type="button" class="btn sf-chip ms-2" data-bs-toggle="modal" data-bs-target="#sfLocationModal">
+                        Hồ Chí Minh <i class="fa-solid fa-chevron-down ms-1"></i>
+                    </button>
+                    <span class="sf-divider mx-3"></span>
+                    <span class="sf-muted">
+                        <i class="fa-regular fa-clock me-2"></i>Giao nhanh trong 20–35 phút
+                    </span>
+                </div>
+
+                <div class="sf-topbar-right sf-muted">
+                    <i class="fa-solid fa-headset me-2"></i>Hỗ trợ: 1900-xxxx
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main header -->
+    <header class="sf-header sticky-top">
+        <div class="container sf-container">
+            <div class="sf-header-inner">
+                <a class="sf-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="sf-brand-badge"><i class="fa-solid fa-bowl-food"></i></span>
+                    <span class="sf-brand-text">FastFood</span>
+                </a>
+
+                <!-- Search -->
+                <form class="sf-search sf-search-compact d-none d-lg-flex"
+                      asp-controller="Foods" asp-action="Index" method="get" role="search" aria-label="Tìm món">
+
+                    <i class="fa-solid fa-magnifying-glass sf-search-icon"></i>
+                    <input class="form-control sf-search-input"
+                           type="search"
+                           name="searchString"
+                           placeholder="Tìm món ăn, đồ uống, combo..."
+                           autocomplete="off" />
+                    <button class="btn sf-btn-primary sf-search-btn" type="submit">
+                        Tìm kiếm
+                    </button>
+                </form>
+
+                <!-- Actions -->
+                <div class="sf-actions flex-nowrap">
+
+                    <a class="btn sf-btn-ghost d-none d-md-inline-flex" asp-area="" asp-controller="Foods" asp-action="Index">
+                        <i class="fa-solid fa-utensils me-2"></i>Đặt món
+                    </a>
+
+                    <!-- Cart icon (badge demo). Nếu bạn có CartCount thì thay 0 bằng biến -->
+                    <a class="sf-cart" asp-area="" asp-controller="Cart" asp-action="Index" title="Giỏ hàng">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="sf-cart-badge">0</span>
+                    </a>
+
+                    <div class="sf-login sf-auth-nowrap">
+                        <partial name="_LoginPartial" />
+                    </div>
+
+
+                    <!-- Mobile menu -->
+                    <button class="btn sf-btn-ghost d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sfMobileMenu" aria-controls="sfMobileMenu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nav pills -->
+            <nav class="sf-nav d-none d-lg-flex" aria-label="Điều hướng">
+                <a class="sf-nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-house me-2"></i>Trang chủ
+                </a>
+                <a class="sf-nav-link" asp-area="" asp-controller="Foods" asp-action="Index">
+                    <i class="fa-solid fa-burger me-2"></i>Menu
+                </a>
+                <a class="sf-nav-link" asp-area="" asp-controller="Combos" asp-action="Index">
+                    <i class="fa-solid fa-layer-group me-2"></i>Combo
+                </a>
+            </nav>
+
+            <!-- Mobile search -->
+            <div class="sf-mobile-search d-lg-none">
+                <form class="sf-search sf-search-mobile"
+                      asp-controller="Foods" asp-action="Index" method="get" role="search" aria-label="Tìm món (mobile)">
+                    <i class="fa-solid fa-magnifying-glass sf-search-icon"></i>
+                    <input class="form-control sf-search-input"
+                           type="search" name="searchString"
+                           placeholder="Tìm món ăn, đồ uống, combo..."
+                           autocomplete="off" />
+                    <button class="btn sf-btn-primary sf-search-btn" type="submit">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main role="main" class="sf-main">
+        <div class="container sf-container">
+            <partial name="_StatusMessage" />
+
+            <div class="sf-page">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="sf-footer">
+        <div class="container sf-container">
+            <div class="row g-3">
+                <div class="col-lg-5">
+                    <div class="sf-footer-brand">
+                        <span class="sf-brand-badge"><i class="fa-solid fa-bowl-food"></i></span>
+                        <div class="ms-2">
+                            <div class="fw-bold">FastFood Online</div>
+                            <div class="sf-muted">Đặt món nhanh • Giao tận nơi • Thanh toán tiện lợi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="sf-footer-links">
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        <a asp-area="" asp-controller="Foods" asp-action="Index">Menu</a>
+                        <a asp-area="" asp-controller="Combos" asp-action="Index">Combo</a>
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sf-footer-bottom">
+                &copy; @DateTime.Now.Year - FastFood Online
+            </div>
+        </div>
+    </footer>
+
+    <!-- Location Modal (demo UI) -->
+    <div class="modal fade" id="sfLocationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content sf-modal">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Chọn khu vực giao hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="sf-muted mb-2">Demo UI (bạn có thể nối dữ liệu thật sau)</div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn sf-chip">Hồ Chí Minh</button>
+                        <button class="btn sf-chip">Hà Nội</button>
+                        <button class="btn sf-chip">Đà Nẵng</button>
+                        <button class="btn sf-chip">Cần Thơ</button>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn sf-btn-ghost" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn sf-btn-primary" data-bs-dismiss="modal">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Offcanvas -->
+    <div class="offcanvas offcanvas-end sf-offcanvas" tabindex="-1" id="sfMobileMenu" aria-labelledby="sfMobileMenuLabel">
+        <div class="offcanvas-header">
+            <div class="d-flex align-items-center">
+                <span class="sf-brand-badge"><i class="fa-solid fa-bowl-food"></i></span>
+                <div class="ms-2">
+                    <div class="fw-bold" id="sfMobileMenuLabel">FastFood Online</div>
+                    <div class="sf-muted small">Menu nhanh kiểu ShopeeFood</div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <a class="sf-mobile-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house me-2"></i>Trang chủ</a>
+            <a class="sf-mobile-link" asp-area="" asp-controller="Foods" asp-action="Index"><i class="fa-solid fa-burger me-2"></i>Menu</a>
+            <a class="sf-mobile-link" asp-area="" asp-controller="Combos" asp-action="Index"><i class="fa-solid fa-layer-group me-2"></i>Combo</a>
+            <hr />
+            <a class="sf-mobile-link" asp-area="" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping me-2"></i>Giỏ hàng</a>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // Active nav highlight (giống app: nhìn phát biết đang ở đâu)
+        (function () {
+            const path = (location.pathname || "").toLowerCase();
+            document.querySelectorAll(".sf-nav-link").forEach(a => {
+                const href = (a.getAttribute("href") || "").toLowerCase();
+                if (!href) return;
+                if (path === href || (href !== "/" && path.startsWith(href))) a.classList.add("active");
+            });
+        })();
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

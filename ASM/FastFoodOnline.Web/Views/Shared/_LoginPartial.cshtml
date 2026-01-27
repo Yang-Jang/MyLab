@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav sf-auth">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+
+        if (isAdmin)
+        {
+            <li class="nav-item">
+                <a class="btn sf-btn-ghost sf-auth-btn sf-admin-btn"
+                   asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    <i class="fa-solid fa-shield-halved me-2"></i>Admin Portal
+                </a>
+            </li>
+        }
+
+        <li class="nav-item dropdown">
+            <a class="sf-auth-user dropdown-toggle"
+               href="#"
+               role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false"
+               title="Tài khoản">
+                <i class="fa-regular fa-user me-2"></i>
+                <span class="sf-username">@User.Identity?.Name</span>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end sf-auth-menu">
+                <li>
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">
+                        <i class="fa-solid fa-id-card me-2"></i>Hồ sơ
+                    </a>
+                </li>
+
+                @if (isAdmin)
+                {
+                    <li>
+                        <a class="dropdown-item text-danger"
+                           asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                            <i class="fa-solid fa-screwdriver-wrench me-2"></i>Vào Admin Portal
+                        </a>
+                    </li>
+                }
+
+                <li><hr class="dropdown-divider" /></li>
+
+                <li>
+                    <form class="px-2" asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn w-100 sf-btn-ghost">
+                            <i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn sf-btn-ghost sf-auth-btn"
+               asp-area="" asp-controller="Account" asp-action="Register">
+                Đăng ký
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="btn sf-btn-primary sf-auth-btn"
+               asp-area="" asp-controller="Account" asp-action="Login">
+                Đăng nhập
+            </a>
+        </li>
+    }
+</ul>

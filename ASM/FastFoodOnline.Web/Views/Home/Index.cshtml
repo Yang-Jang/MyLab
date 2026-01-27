@@ -1,0 +1,192 @@
+﻿@model FastFoodOnline.Web.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+}
+
+<!-- HERO -->
+<section class="sf-home-hero">
+    <div class="container sf-container">
+        <div class="sf-hero-card">
+            <div class="sf-hero-grid">
+                <div>
+                    <div class="sf-hero-badges">
+                        <span class="sf-badge"><i class="fa-solid fa-bolt me-2"></i>Giao nhanh</span>
+                        <span class="sf-badge"><i class="fa-solid fa-shield-heart me-2"></i>An toàn</span>
+                        <span class="sf-badge"><i class="fa-solid fa-tags me-2"></i>Nhiều ưu đãi</span>
+                    </div>
+
+                    <h1 class="sf-hero-title">FastFood Online</h1>
+                    <p class="sf-hero-desc">
+                        Đặt món ngon, giao tận nơi. Khám phá menu và combo hấp dẫn mỗi ngày.
+                    </p>
+
+                    <!-- Quick search (đưa về Foods/Index) -->
+                    <form class="sf-hero-search" asp-controller="Foods" asp-action="Index" method="get" role="search" aria-label="Tìm món nhanh">
+                        <i class="fa-solid fa-magnifying-glass sf-hero-search-icon"></i>
+                        <input class="form-control sf-hero-search-input"
+                               type="search"
+                               name="searchString"
+                               placeholder="Bạn muốn ăn gì hôm nay?"
+                               autocomplete="off" />
+                        <button class="btn sf-btn-primary sf-hero-search-btn" type="submit">
+                            Tìm kiếm
+                        </button>
+                    </form>
+
+                    <div class="sf-hero-actions">
+                        <a class="btn sf-btn-primary sf-hero-cta" asp-controller="Foods" asp-action="Index">
+                            <i class="fa-solid fa-utensils me-2"></i>Xem Menu
+                        </a>
+                        <a class="btn sf-btn-ghost sf-hero-cta" asp-controller="Combos" asp-action="Index">
+                            <i class="fa-solid fa-layer-group me-2"></i>Xem Combo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right side illustration placeholder -->
+                <div class="sf-hero-illus">
+                    <div class="sf-illus-card">
+                        <div class="sf-illus-row">
+                            <div class="sf-illus-dot"></div>
+                            <div class="sf-illus-dot"></div>
+                            <div class="sf-illus-dot"></div>
+                        </div>
+                        <div class="sf-illus-title">Gợi ý hôm nay</div>
+                        <div class="sf-illus-items">
+                            <div class="sf-illus-item">
+                                <span class="sf-illus-icon"><i class="fa-solid fa-burger"></i></span>
+                                <div>
+                                    <div class="sf-illus-name">Burger</div>
+                                    <div class="sf-muted small">Nóng giòn • ngon miệng</div>
+                                </div>
+                            </div>
+                            <div class="sf-illus-item">
+                                <span class="sf-illus-icon"><i class="fa-solid fa-mug-hot"></i></span>
+                                <div>
+                                    <div class="sf-illus-name">Trà sữa</div>
+                                    <div class="sf-muted small">Ngọt vừa • thơm béo</div>
+                                </div>
+                            </div>
+                            <div class="sf-illus-item">
+                                <span class="sf-illus-icon"><i class="fa-solid fa-pizza-slice"></i></span>
+                                <div>
+                                    <div class="sf-illus-name">Pizza</div>
+                                    <div class="sf-muted small">Phô mai • đậm vị</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sf-illus-foot">
+                            <span class="sf-muted small"><i class="fa-regular fa-clock me-2"></i>20–35 phút</span>
+                            <span class="sf-pill">Ưu đãi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="sf-home-section">
+    <div class="container sf-container">
+        <div class="sf-section-head">
+            <h2 class="sf-section-title">Danh mục</h2>
+            <a class="sf-link" asp-controller="Foods" asp-action="Index">Xem tất cả <i class="fa-solid fa-chevron-right ms-1"></i></a>
+        </div>
+
+        <div class="sf-cat-grid">
+            @foreach (var cat in Model.Categories)
+            {
+                <a class="sf-cat-card"
+                   asp-controller="Foods" asp-action="Index" asp-route-categorySlug="@cat.Slug"
+                   title="@cat.Name">
+                    <div class="sf-cat-icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div class="sf-cat-name">@cat.Name</div>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- LATEST FOODS -->
+<section class="sf-home-section">
+    <div class="container sf-container">
+        <div class="sf-section-head">
+            <h2 class="sf-section-title">Món mới</h2>
+            <a class="btn sf-btn-ghost sf-btn-sm" asp-controller="Foods" asp-action="Index">Xem tất cả</a>
+        </div>
+
+        <div class="row g-3">
+            @foreach (var item in Model.FeaturedFoods)
+            {
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sf-food-card">
+                        <a asp-controller="Foods" asp-action="Details" asp-route-id="@item.Id" class="sf-food-thumb">
+                            <img src="@item.ImageUrl" alt="@item.Name" loading="lazy" />
+                            <span class="sf-food-badge">Mới</span>
+                        </a>
+
+                        <div class="sf-food-body">
+                            <div class="sf-food-title" title="@item.Name">@item.Name</div>
+                            <div class="sf-food-desc">@item.Description</div>
+
+                            <div class="sf-food-foot">
+                                <div class="sf-food-price">@item.Price.ToString("N0") đ</div>
+                                <a asp-controller="Foods" asp-action="Details" asp-route-id="@item.Id"
+                                   class="btn sf-btn-ghost sf-btn-sm">
+                                    Chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- COMBOS -->
+<section class="sf-home-section sf-home-section-last">
+    <div class="container sf-container">
+        <div class="sf-section-head">
+            <h2 class="sf-section-title">Combo ưu đãi</h2>
+            <a class="btn sf-btn-ghost sf-btn-sm" asp-controller="Combos" asp-action="Index">Xem tất cả</a>
+        </div>
+
+        <div class="row g-3">
+            @foreach (var item in Model.FeaturedCombos)
+            {
+                <div class="col-12 col-lg-6">
+                    <div class="sf-combo-card">
+                        <a asp-controller="Combos" asp-action="Details" asp-route-id="@item.Id" class="sf-combo-thumb">
+                            <img src="@item.ImageUrl" alt="@item.Name" loading="lazy" />
+                        </a>
+
+                        <div class="sf-combo-body">
+                            <div class="sf-combo-title" title="@item.Name">@item.Name</div>
+                            <div class="sf-combo-desc">@item.Description</div>
+
+                            <div class="sf-combo-foot">
+                                <div class="sf-food-price">@item.Price.ToString("N0") đ</div>
+                                <a asp-controller="Combos" asp-action="Details" asp-route-id="@item.Id"
+                                   class="btn sf-btn-ghost sf-btn-sm">
+                                    Chi tiết
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="sf-combo-tag">
+                            <i class="fa-solid fa-tags me-2"></i>Deal
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,111 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.sf-toast {
+    position: fixed;
+    right: 18px;
+    top: 18px;
+    z-index: 9999;
+    width: min(420px, calc(100vw - 36px));
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #111827;
+    color: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 10px 28px rgba(0,0,0,.25);
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s ease;
+}
+
+    .sf-toast.show {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .sf-toast.hide {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+.sf-toast-ic {
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.sf-toast-content {
+    flex: 1;
+}
+
+.sf-toast-title {
+    font-weight: 800;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.sf-toast-msg {
+    font-size: 13px;
+    opacity: .92;
+}
+
+.sf-toast-close {
+    border: 0;
+    background: transparent;
+    color: rgba(255,255,255,.85);
+    padding: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .sf-toast-close:hover {
+        background: rgba(255,255,255,.08);
+    }
+
+.sf-toast-success {
+    border-left: 4px solid #22c55e;
+}
+
+.sf-toast-error {
+    border-left: 4px solid #ef4444;
+}
+
+.sf-toast-warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.sf-toast-info {
+    border-left: 4px solid #3b82f6;
+}

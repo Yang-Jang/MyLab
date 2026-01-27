@@ -1,0 +1,152 @@
+﻿@model FastFoodOnline.Web.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Tài khoản";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+<div class="container sf-container">
+    <div class="sf-profile-page">
+        <div class="sf-page-head">
+            <h1 class="sf-page-title">
+                <i class="fa-regular fa-user me-2"></i>Tài khoản của tôi
+            </h1>
+        </div>
+
+        <div class="row g-3">
+            <!-- Sidebar -->
+            <aside class="col-12 col-lg-3">
+                <div class="sf-side-card">
+                    <div class="sf-side-head">
+                        <div class="sf-avatar">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+                        <div class="sf-side-info">
+                            <div class="sf-side-name">@Model.FullName</div>
+                            <div class="sf-side-email">@Model.Email</div>
+                        </div>
+                    </div>
+
+                    <div class="sf-side-menu">
+                        <a asp-action="Profile" class="sf-side-link active">
+                            <i class="fa-solid fa-id-card me-2"></i>Hồ sơ
+                        </a>
+                        <a asp-controller="Orders" asp-action="Index" class="sf-side-link">
+                            <i class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử đơn hàng
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sf-help mt-3">
+                    <i class="fa-solid fa-circle-info me-2"></i>
+                    Cần hỗ trợ? Liên hệ <strong>1900-xxxx</strong>
+                </div>
+            </aside>
+
+            <!-- Content -->
+            <section class="col-12 col-lg-9">
+                <div class="sf-card">
+                    <div class="sf-card-head">
+                        <div class="sf-card-title">
+                            <i class="fa-solid fa-pen-to-square me-2"></i>Cập nhật hồ sơ
+                        </div>
+                    </div>
+
+                    <div class="sf-card-body">
+                        <form asp-action="Profile" method="post" class="sf-form">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                            <div class="row g-3">
+                                <!-- Email (readonly) -->
+                                <div class="col-12">
+                                    <div class="sf-field">
+                                        <label class="sf-label">Email</label>
+                                        <div class="sf-input-group">
+                                            <i class="fa-regular fa-envelope sf-input-icon"></i>
+                                            <input asp-for="Email" class="form-control sf-input" readonly />
+                                        </div>
+                                        <div class="sf-hint">Email không thể thay đổi.</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sf-field">
+                                        <label asp-for="FullName" class="sf-label">Họ và tên</label>
+                                        <div class="sf-input-group">
+                                            <i class="fa-regular fa-id-badge sf-input-icon"></i>
+                                            <input asp-for="FullName" class="form-control sf-input" placeholder="Nhập họ và tên" />
+                                        </div>
+                                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sf-field">
+                                        <label asp-for="Phone" class="sf-label">Số điện thoại</label>
+                                        <div class="sf-input-group">
+                                            <i class="fa-solid fa-phone sf-input-icon"></i>
+                                            <input asp-for="Phone" class="form-control sf-input" placeholder="VD: 090xxxxxxx" />
+                                        </div>
+                                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="sf-field">
+                                        <label asp-for="Address" class="sf-label">Địa chỉ</label>
+                                        <div class="sf-input-group">
+                                            <i class="fa-solid fa-location-dot sf-input-icon"></i>
+                                            <input asp-for="Address" class="form-control sf-input" placeholder="Số nhà, đường, phường/xã, quận/huyện..." />
+                                        </div>
+                                        <span asp-validation-for="Address" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sf-field">
+                                        <label asp-for="DateOfBirth" class="sf-label">Ngày sinh</label>
+                                        <div class="sf-input-group">
+                                            <i class="fa-regular fa-calendar sf-input-icon"></i>
+                                            <input asp-for="DateOfBirth" class="form-control sf-input" type="date" />
+                                        </div>
+                                        <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="sf-field">
+                                        <label asp-for="Gender" class="sf-label">Giới tính</label>
+                                        <div class="sf-input-group">
+                                            <i class="fa-solid fa-venus-mars sf-input-icon"></i>
+                                            <select asp-for="Gender" class="form-select sf-input sf-select">
+                                                <option value="Male">Nam</option>
+                                                <option value="Female">Nữ</option>
+                                                <option value="Other">Khác</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sf-actions">
+                                <button type="submit" class="btn sf-btn-primary sf-btn-lg">
+                                    <i class="fa-solid fa-floppy-disk me-2"></i>Lưu thay đổi
+                                </button>
+                                <a class="btn sf-btn-ghost sf-btn-lg" asp-controller="Home" asp-action="Index">
+                                    <i class="fa-solid fa-house me-2"></i>Về trang chủ
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,35 @@
+@model IEnumerable<FastFoodOnline.Web.Models.Category>
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="d-flex justify-content-between mb-4">
+    <h2>Manage Categories</h2>
+    <a href="#" class="btn btn-primary disabled"><i class="fas fa-plus"></i> Create New</a>
+</div>
+
+<table class="table table-bordered bg-white shadow-sm">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Slug</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Slug</td>
+                <td>@item.IsActive</td>
+                <td>
+                    <button class="btn btn-sm btn-info text-white disabled">Edit</button>
+                    <button class="btn btn-sm btn-danger disabled">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<small class="text-muted">CRUD functionality not fully implemented in Y1 scope.</small>

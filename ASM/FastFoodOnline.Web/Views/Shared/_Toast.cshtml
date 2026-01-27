@@ -1,0 +1,66 @@
+﻿@{
+    var msg = TempData["ToastMessage"] as string;
+    var type = (TempData["ToastType"] as string) ?? "info";
+    var title = TempData["ToastTitle"] as string;
+
+    if (string.IsNullOrWhiteSpace(msg)) { return; }
+
+    string defaultTitle = type switch
+    {
+        "success" => "Thành công",
+        "error" => "Lỗi",
+        "warning" => "Lưu ý",
+        _ => "Thông báo"
+    };
+}
+
+<div id="sfToast" class="sf-toast sf-toast-@type" role="status" aria-live="polite" aria-atomic="true">
+    <div class="sf-toast-ic">
+        @if (type == "success")
+        {
+            <i class="fa-solid fa-circle-check"></i>
+        }
+        else if (type == "error")
+        {
+
+            <i class="fa-solid fa-circle-xmark"></i>
+        }
+        else if (type == "warning")
+        {
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        }
+        else
+        {
+
+            <i class="fa-solid fa-circle-info"></i>
+        }
+    </div>
+
+    <div class="sf-toast-content">
+        <div class="sf-toast-title">@(!string.IsNullOrWhiteSpace(title) ? title : defaultTitle)</div>
+        <div class="sf-toast-msg">@msg</div>
+    </div>
+
+    <button type="button" class="sf-toast-close" aria-label="Đóng">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+</div>
+
+<script>
+    (function () {
+        const toast = document.getElementById('sfToast');
+        if (!toast) return;
+
+        requestAnimationFrame(() => toast.classList.add('show'));
+
+        const hide = () => {
+            toast.classList.remove('show');
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 250);
+        };
+
+        toast.querySelector('.sf-toast-close')?.addEventListener('click', hide);
+        setTimeout(hide, 2500);
+    })();
+</script>

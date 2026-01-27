@@ -1,0 +1,164 @@
+@model FastFoodOnline.Web.Models.Combo
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/combo-details.css" asp-append-version="true" />
+}
+
+<div class="container sf-container">
+    <div class="sf-detail">
+
+        <!-- Breadcrumb -->
+        <nav class="sf-breadcrumb" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a asp-controller="Combos" asp-action="Index">Combo</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+            </ol>
+        </nav>
+
+        <div class="row g-3 mt-1">
+            <!-- Left: Image -->
+            <div class="col-12 col-lg-6">
+                <div class="sf-detail-media">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" loading="lazy" />
+                    <div class="sf-media-badges">
+                        <span class="sf-pill sf-pill-deal"><i class="fa-solid fa-tags me-2"></i>Combo Deal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Info -->
+            <div class="col-12 col-lg-6">
+                <div class="sf-detail-card">
+                    <div class="sf-detail-head">
+                        <h1 class="sf-detail-title">@Model.Name</h1>
+                        <div class="sf-detail-price">@Model.Price.ToString("N0") đ</div>
+                    </div>
+
+                    <p class="sf-detail-desc">@Model.Description</p>
+
+                    <!-- Includes -->
+                    <div class="sf-includes">
+                        <div class="sf-includes-title">
+                            <i class="fa-solid fa-box-open me-2"></i>Gồm những món sau
+                        </div>
+
+                        <div class="sf-includes-list">
+                            @if (Model.ComboItems != null && Model.ComboItems.Any())
+                            {
+                                foreach (var item in Model.ComboItems)
+                                {
+                                    <div class="sf-include-item">
+                                        <div class="sf-include-left">
+                                            <span class="sf-qty-tag">x @item.Quantity</span>
+                                            <div class="sf-include-name">@item.Food?.Name</div>
+                                        </div>
+                                        <div class="sf-include-right">
+                                            <div class="sf-include-price">@(item.Food?.Price.ToString("N0")) đ</div>
+                                            <div class="sf-muted small">/ món</div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="sf-empty">
+                                    Combo chưa có danh sách món.
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Order box -->
+                    <div class="sf-order-box">
+                        <form asp-controller="Cart" asp-action="AddCombo" method="post" class="sf-order-form">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="comboId" value="@Model.Id" />
+
+                            <div class="sf-qty">
+                                <div class="sf-qty-label">
+                                    Số lượng
+                                    <span class="sf-muted small"> (tối đa 10)</span>
+                                </div>
+
+                                <div class="sf-qty-stepper">
+                                    <button type="button" class="sf-qty-btn" id="qtyMinus" aria-label="Giảm số lượng">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+
+                                    <input type="number"
+                                           id="quantity"
+                                           name="quantity"
+                                           value="1"
+                                           min="1"
+                                           max="10"
+                                           class="sf-qty-input"
+                                           inputmode="numeric" />
+
+                                    <button type="button" class="sf-qty-btn" id="qtyPlus" aria-label="Tăng số lượng">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="sf-order-actions">
+                                <button type="submit" class="btn sf-btn-primary sf-btn-lg w-100">
+                                    <i class="fa-solid fa-cart-plus me-2"></i>Thêm combo vào giỏ
+                                </button>
+
+                                <a class="btn sf-btn-ghost sf-btn-lg w-100"
+                                   asp-controller="Combos" asp-action="Index">
+                                    <i class="fa-solid fa-arrow-left me-2"></i>Quay lại Combo
+                                </a>
+                            </div>
+
+                            <div class="sf-order-note">
+                                <i class="fa-regular fa-clock me-2"></i>Dự kiến giao: 20–35 phút
+                                <span class="sf-dot"></span>
+                                <i class="fa-solid fa-tags me-2"></i>Deal tiết kiệm
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const input = document.getElementById("quantity");
+            const minus = document.getElementById("qtyMinus");
+            const plus = document.getElementById("qtyPlus");
+            if (!input || !minus || !plus) return;
+
+            const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+            const getMin = () => parseInt(input.min || "1", 10);
+            const getMax = () => parseInt(input.max || "10", 10);
+
+            const update = (delta) => {
+                const min = getMin(), max = getMax();
+                const current = parseInt(input.value || "1", 10);
+                input.value = clamp(current + delta, min, max);
+            };
+
+            minus.addEventListener("click", () => update(-1));
+            plus.addEventListener("click", () => update(1));
+
+            input.addEventListener("input", () => {
+                const min = getMin(), max = getMax();
+                const current = parseInt(input.value || "1", 10);
+                input.value = clamp(isNaN(current) ? 1 : current, min, max);
+            });
+        })();
+    </script>
+}

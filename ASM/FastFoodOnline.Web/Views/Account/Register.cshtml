@@ -1,0 +1,178 @@
+﻿@model FastFoodOnline.Web.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "_AuthLayout";
+}
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/auth.css" asp-append-version="true" />
+}
+
+<div class="sf-auth-wrap">
+    <div class="container sf-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-7">
+
+                <div class="sf-auth-card">
+                    <div class="sf-auth-head">
+                        <div class="sf-auth-badge">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <h1 class="sf-auth-title">Tạo tài khoản</h1>
+                            <div class="sf-auth-subtitle">Đăng ký để đặt món nhanh • Ưu đãi hấp dẫn mỗi ngày</div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Register" method="post" class="mt-3" autocomplete="on">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                        <!-- Họ tên -->
+                        <div class="sf-field">
+                            <label asp-for="FullName" class="sf-label">Họ và tên</label>
+                            <div class="sf-input-group">
+                                <i class="fa-regular fa-id-badge sf-input-icon"></i>
+                                <input asp-for="FullName" class="form-control sf-input" placeholder="Nhập họ và tên" />
+                            </div>
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="sf-field">
+                            <label asp-for="Email" class="sf-label">Email</label>
+                            <div class="sf-input-group">
+                                <i class="fa-regular fa-envelope sf-input-icon"></i>
+                                <input asp-for="Email" class="form-control sf-input" placeholder="name@example.com" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="row g-3">
+                            <!-- SĐT -->
+                            <div class="col-12 col-md-6">
+                                <div class="sf-field">
+                                    <label asp-for="Phone" class="sf-label">Số điện thoại</label>
+                                    <div class="sf-input-group">
+                                        <i class="fa-solid fa-phone sf-input-icon"></i>
+                                        <input asp-for="Phone" class="form-control sf-input" placeholder="VD: 090xxxxxxx" />
+                                    </div>
+                                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Ngày sinh -->
+                            <div class="col-12 col-md-6">
+                                <div class="sf-field">
+                                    <label asp-for="DateOfBirth" class="sf-label">Ngày sinh</label>
+                                    <div class="sf-input-group">
+                                        <i class="fa-regular fa-calendar sf-input-icon"></i>
+                                        <input asp-for="DateOfBirth" type="date" class="form-control sf-input" />
+                                    </div>
+                                    <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <!-- Địa chỉ -->
+                            <div class="col-12 col-md-7">
+                                <div class="sf-field">
+                                    <label asp-for="Address" class="sf-label">Địa chỉ</label>
+                                    <div class="sf-input-group">
+                                        <i class="fa-solid fa-location-dot sf-input-icon"></i>
+                                        <input asp-for="Address" class="form-control sf-input" placeholder="Số nhà, đường, quận/huyện..." />
+                                    </div>
+                                    <span asp-validation-for="Address" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Giới tính -->
+                            <div class="col-12 col-md-5">
+                                <div class="sf-field">
+                                    <label asp-for="Gender" class="sf-label">Giới tính</label>
+                                    <div class="sf-input-group">
+                                        <i class="fa-solid fa-venus-mars sf-input-icon"></i>
+                                        <select asp-for="Gender" class="form-select sf-input sf-select">
+                                            <option value="Male">Nam</option>
+                                            <option value="Female">Nữ</option>
+                                            <option value="Other">Khác</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="Gender" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <!-- Mật khẩu -->
+                            <div class="col-12 col-md-6">
+                                <div class="sf-field">
+                                    <label asp-for="Password" class="sf-label">Mật khẩu</label>
+                                    <div class="sf-input-group">
+                                        <i class="fa-solid fa-lock sf-input-icon"></i>
+                                        <input asp-for="Password" type="password" class="form-control sf-input" placeholder="Tối thiểu 6 ký tự" />
+                                        <button class="btn sf-eye" type="button" id="togglePwd" aria-label="Hiện/ẩn mật khẩu">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <!-- Xác nhận mật khẩu -->
+                            <div class="col-12 col-md-6">
+                                <div class="sf-field">
+                                    <label asp-for="ConfirmPassword" class="sf-label">Xác nhận mật khẩu</label>
+                                    <div class="sf-input-group">
+                                        <i class="fa-solid fa-circle-check sf-input-icon"></i>
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control sf-input" placeholder="Nhập lại mật khẩu" />
+                                        <button class="btn sf-eye" type="button" id="toggleConfirmPwd" aria-label="Hiện/ẩn xác nhận mật khẩu">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn sf-btn-primary w-100 mt-3">
+                            Đăng ký
+                        </button>
+
+                        <div class="sf-auth-foot">
+                            Đã có tài khoản?
+                            <a class="sf-link fw-semibold" asp-action="Login">Đăng nhập</a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const pwd = document.querySelector('input[name="Password"]');
+            const cpwd = document.querySelector('input[name="ConfirmPassword"]');
+            const btn1 = document.getElementById('togglePwd');
+            const btn2 = document.getElementById('toggleConfirmPwd');
+
+            function wire(btn, input) {
+                if (!btn || !input) return;
+                btn.addEventListener('click', () => {
+                    const isPwd = input.getAttribute('type') === 'password';
+                    input.setAttribute('type', isPwd ? 'text' : 'password');
+                    btn.innerHTML = isPwd ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+                });
+            }
+
+            wire(btn1, pwd);
+            wire(btn2, cpwd);
+        })();
+    </script>
+}

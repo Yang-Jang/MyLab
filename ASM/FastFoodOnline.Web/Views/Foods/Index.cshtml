@@ -1,0 +1,223 @@
+@model FastFoodOnline.Web.ViewModels.FoodListViewModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/foods.css" asp-append-version="true" />
+}
+
+<div class="container sf-container">
+    <div class="row g-3">
+
+        <!-- Sidebar -->
+        <aside class="col-12 col-lg-3">
+            <div class="sf-filter-card">
+                <div class="sf-filter-head">
+                    <div class="sf-filter-title">
+                        <i class="fa-solid fa-filter me-2"></i>Bộ lọc
+                    </div>
+                </div>
+
+                <div class="sf-filter-section">
+                    <div class="sf-filter-label">Danh mục</div>
+
+                    <div class="sf-filter-list">
+                        <a class="sf-filter-item @(string.IsNullOrEmpty(Model.CurrentCategorySlug) ? "active" : "")"
+                           asp-action="Index"
+                           asp-route-categorySlug=""
+                           asp-route-searchString="@Model.CurrentSearch"
+                           asp-route-sortOrder="@Model.CurrentSort">
+                            Tất cả
+                        </a>
+
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <a class="sf-filter-item @(Model.CurrentCategorySlug == cat.Slug ? "active" : "")"
+                               asp-action="Index"
+                               asp-route-categorySlug="@cat.Slug"
+                               asp-route-searchString="@Model.CurrentSearch"
+                               asp-route-sortOrder="@Model.CurrentSort">
+                                @cat.Name
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                <div class="sf-filter-section">
+                    <div class="sf-filter-label">Sắp xếp nhanh</div>
+
+                    <div class="sf-sort-chips">
+                        <a class="sf-chip-link @(Model.CurrentSort == null || Model.CurrentSort == "" ? "active" : "")"
+                           asp-action="Index"
+                           asp-route-sortOrder=""
+                           asp-route-categorySlug="@Model.CurrentCategorySlug"
+                           asp-route-searchString="@Model.CurrentSearch">
+                            Mới nhất
+                        </a>
+
+                        <a class="sf-chip-link @(Model.CurrentSort == "price_asc" ? "active" : "")"
+                           asp-action="Index"
+                           asp-route-sortOrder="price_asc"
+                           asp-route-categorySlug="@Model.CurrentCategorySlug"
+                           asp-route-searchString="@Model.CurrentSearch">
+                            Giá ↑
+                        </a>
+
+                        <a class="sf-chip-link @(Model.CurrentSort == "price_desc" ? "active" : "")"
+                           asp-action="Index"
+                           asp-route-sortOrder="price_desc"
+                           asp-route-categorySlug="@Model.CurrentCategorySlug"
+                           asp-route-searchString="@Model.CurrentSearch">
+                            Giá ↓
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile helper -->
+            <div class="sf-mobile-note d-lg-none">
+                Mẹo: dùng thanh tìm kiếm trên header để tìm món nhanh.
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <section class="col-12 col-lg-9">
+            <!-- Toolbar -->
+            <div class="sf-toolbar">
+                <div>
+                    <div class="sf-toolbar-title">Danh sách món</div>
+                    <div class="sf-toolbar-sub">
+                        @(string.IsNullOrEmpty(Model.CurrentCategorySlug) ? "Tất cả danh mục" : $"Danh mục: {Model.CurrentCategorySlug}")
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <div class="dropdown">
+                        <button class="btn sf-btn-ghost sf-btn-sm dropdown-toggle" type="button"
+                                id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-arrow-up-wide-short me-2"></i>
+                            @{
+                                var sortText = Model.CurrentSort == "price_asc" ? "Giá: Thấp → Cao"
+                                : Model.CurrentSort == "price_desc" ? "Giá: Cao → Thấp"
+                                : "Mới nhất";
+                            }
+                            @sortText
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end sf-dropdown" aria-labelledby="sortDropdown">
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-action="Index"
+                                   asp-route-sortOrder=""
+                                   asp-route-categorySlug="@Model.CurrentCategorySlug"
+                                   asp-route-searchString="@Model.CurrentSearch">
+                                    Mới nhất
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-action="Index"
+                                   asp-route-sortOrder="price_asc"
+                                   asp-route-categorySlug="@Model.CurrentCategorySlug"
+                                   asp-route-searchString="@Model.CurrentSearch">
+                                    Giá: Thấp → Cao
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-action="Index"
+                                   asp-route-sortOrder="price_desc"
+                                   asp-route-categorySlug="@Model.CurrentCategorySlug"
+                                   asp-route-searchString="@Model.CurrentSearch">
+                                    Giá: Cao → Thấp
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.CurrentSearch))
+            {
+                <div class="sf-search-pill">
+                    <div>
+                        Kết quả cho: <strong>@Model.CurrentSearch</strong>
+                    </div>
+                    <a class="sf-link" asp-action="Index"
+                       asp-route-categorySlug="@Model.CurrentCategorySlug"
+                       asp-route-sortOrder="@Model.CurrentSort">
+                        Xoá tìm kiếm
+                    </a>
+                </div>
+            }
+
+            <!-- Grid -->
+            <div class="row g-3">
+                @foreach (var item in Model.Foods)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="sf-food-card">
+                            <a class="sf-food-thumb" asp-action="Details" asp-route-id="@item.Id">
+                                <img src="@item.ImageUrl" alt="@item.Name" loading="lazy" />
+                                <span class="sf-food-badge">Hot</span>
+                            </a>
+
+                            <div class="sf-food-body">
+                                <div class="sf-food-title" title="@item.Name">@item.Name</div>
+                                <div class="sf-food-desc">@item.Description</div>
+
+                                <div class="sf-food-foot">
+                                    <div class="sf-food-price">@item.Price.ToString("N0") đ</div>
+                                    <a class="btn sf-btn-primary sf-btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="fa-solid fa-bag-shopping me-2"></i>Chọn
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Pagination -->
+            <nav class="sf-pagination" aria-label="Phân trang">
+                <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(Model.PageIndex - 1)"
+                           asp-route-categorySlug="@Model.CurrentCategorySlug"
+                           asp-route-searchString="@Model.CurrentSearch"
+                           asp-route-sortOrder="@Model.CurrentSort">
+                            <i class="fa-solid fa-chevron-left me-2"></i>Trước
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-page="@i"
+                               asp-route-categorySlug="@Model.CurrentCategorySlug"
+                               asp-route-searchString="@Model.CurrentSearch"
+                               asp-route-sortOrder="@Model.CurrentSort">@i</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(Model.PageIndex + 1)"
+                           asp-route-categorySlug="@Model.CurrentCategorySlug"
+                           asp-route-searchString="@Model.CurrentSearch"
+                           asp-route-sortOrder="@Model.CurrentSort">
+                            Sau<i class="fa-solid fa-chevron-right ms-2"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+
+    </div>
+</div>

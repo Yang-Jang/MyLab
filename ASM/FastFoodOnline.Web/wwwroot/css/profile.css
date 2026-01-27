@@ -1,0 +1,189 @@
+﻿/* Profile - ShopeeFood vibe */
+
+.sf-profile-page {
+    padding: 6px 0 10px;
+}
+
+.sf-page-head {
+    margin-bottom: 10px;
+}
+
+.sf-page-title {
+    margin: 0;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+/* Common card */
+.sf-card {
+    background: #fff;
+    border: 1px solid rgba(17,24,39,.12);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(17,24,39,.10);
+    overflow: hidden;
+}
+
+.sf-card-head {
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid rgba(17,24,39,.10);
+}
+
+.sf-card-title {
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+}
+
+.sf-card-body {
+    padding: 14px;
+}
+
+/* Sidebar */
+.sf-side-card {
+    background: #fff;
+    border: 1px solid rgba(17,24,39,.12);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(17,24,39,.10);
+    overflow: hidden;
+}
+
+.sf-side-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-bottom: 1px solid rgba(17,24,39,.10);
+}
+
+.sf-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #EE4D2D, #FF7337);
+    color: #fff;
+    box-shadow: 0 10px 18px rgba(238,77,45,.18);
+    flex: 0 0 auto;
+}
+
+.sf-side-info {
+    min-width: 0;
+}
+
+.sf-side-name {
+    font-weight: 1000;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sf-side-email {
+    margin-top: 2px;
+    color: #6b7280;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sf-side-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+}
+
+.sf-side-link {
+    text-decoration: none;
+    color: #111827;
+    font-weight: 900;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(17,24,39,.03);
+    border: 1px solid rgba(17,24,39,.06);
+    transition: all .15s ease;
+}
+
+    .sf-side-link:hover {
+        background: rgba(238,77,45,.10);
+        border-color: rgba(238,77,45,.18);
+    }
+
+    .sf-side-link.active {
+        background: rgba(238,77,45,.16);
+        border-color: rgba(238,77,45,.25);
+    }
+
+/* Form fields (đồng bộ auth/checkout) */
+.sf-field {
+    margin-top: 12px;
+}
+
+.sf-label {
+    font-weight: 900;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.sf-input-group {
+    position: relative;
+}
+
+.sf-input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    pointer-events: none;
+}
+
+.sf-input {
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(17,24,39,.12);
+    padding-left: 40px;
+    padding-right: 12px;
+    box-shadow: 0 10px 18px rgba(17,24,39,.05);
+}
+
+    .sf-input:focus {
+        border-color: rgba(238,77,45,.55);
+        box-shadow: 0 0 0 .25rem rgba(238,77,45,.15);
+    }
+
+.sf-select {
+    padding-right: 12px;
+}
+
+.sf-hint {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+/* Actions */
+.sf-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.sf-btn-lg {
+    height: 46px;
+    border-radius: 999px;
+    font-weight: 900;
+    padding: 0 14px;
+}
+
+/* Help */
+.sf-help {
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(17,24,39,.03);
+    border: 1px solid rgba(17,24,39,.08);
+    color: #6b7280;
+}

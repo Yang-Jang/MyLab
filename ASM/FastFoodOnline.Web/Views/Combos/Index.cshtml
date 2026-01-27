@@ -1,0 +1,75 @@
+@model IEnumerable<FastFoodOnline.Web.Models.Combo>
+@{
+    ViewData["Title"] = "Combo";
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/combos.css" asp-append-version="true" />
+}
+
+<div class="container sf-container">
+    <!-- Header -->
+    <div class="sf-combos-head">
+        <div>
+            <h1 class="sf-combos-title">Combo ưu đãi</h1>
+            <div class="sf-combos-sub">Chọn combo “best value” • Tiết kiệm hơn khi mua lẻ</div>
+        </div>
+
+        <a class="btn sf-btn-ghost sf-btn-sm" asp-controller="Foods" asp-action="Index">
+            <i class="fa-solid fa-utensils me-2"></i>Đi tới Menu
+        </a>
+    </div>
+
+    <!-- Grid -->
+    <div class="row g-3">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="sf-combo-card2">
+                    <a class="sf-combo-thumb2" asp-action="Details" asp-route-id="@item.Id">
+                        <img src="@item.ImageUrl" alt="@item.Name" loading="lazy" />
+                        <span class="sf-combo-badge2"><i class="fa-solid fa-tags me-2"></i>Deal</span>
+                    </a>
+
+                    <div class="sf-combo-body2">
+                        <div class="sf-combo-title2" title="@item.Name">@item.Name</div>
+                        <div class="sf-combo-desc2">@item.Description</div>
+
+                        <div class="sf-combo-foot2">
+                            <div class="sf-combo-price2">@item.Price.ToString("N0") đ</div>
+                            <a class="btn sf-btn-primary sf-btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                                <i class="fa-solid fa-bag-shopping me-2"></i>Xem deal
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    <nav class="sf-pagination sf-pagination-combo" aria-label="Phân trang">
+        <ul class="pagination justify-content-center mb-0">
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)">
+                    <i class="fa-solid fa-chevron-left me-2"></i>Trước
+                </a>
+            </li>
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(currentPage == i ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)">
+                    Sau<i class="fa-solid fa-chevron-right ms-2"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

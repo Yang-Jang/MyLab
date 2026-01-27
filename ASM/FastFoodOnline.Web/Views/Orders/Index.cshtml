@@ -1,0 +1,133 @@
+@model IEnumerable<FastFoodOnline.Web.Models.Order>
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+
+    string StatusText(string s) => s switch
+    {
+        "Pending" => "Chờ xác nhận",
+        "Preparing" => "Đang chuẩn bị",
+        "Delivering" => "Đang giao",
+        "Delivered" => "Hoàn thành",
+        "Cancelled" => "Đã huỷ",
+        _ => s
+    };
+
+    string StatusClass(string s) => s switch
+    {
+        "Pending" => "sf-status sf-status-pending",
+        "Preparing" => "sf-status sf-status-preparing",
+        "Delivering" => "sf-status sf-status-delivering",
+        "Delivered" => "sf-status sf-status-delivered",
+        "Cancelled" => "sf-status sf-status-cancelled",
+        _ => "sf-status"
+    };
+
+    string StatusIcon(string s) => s switch
+    {
+        "Pending" => "fa-regular fa-clock",
+        "Preparing" => "fa-solid fa-kitchen-set",
+        "Delivering" => "fa-solid fa-motorcycle",
+        "Delivered" => "fa-solid fa-circle-check",
+        "Cancelled" => "fa-solid fa-ban",
+        _ => "fa-solid fa-circle-info"
+    };
+
+    string PaymentText(string method) => method switch
+    {
+        "COD" => "Tiền mặt (COD)",
+        "MoMo" => "Ví MoMo",
+        "VNPay" => "VNPay QR",
+        "ZaloPay" => "ZaloPay",
+        _ => method
+    };
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+}
+
+<div class="container sf-container">
+    <div class="sf-orders-page">
+        <div class="sf-page-head">
+            <h1 class="sf-page-title">
+                <i class="fa-solid fa-clock-rotate-left me-2"></i>Lịch sử đơn hàng
+            </h1>
+            <a class="btn sf-btn-ghost sf-btn-sm" asp-controller="Foods" asp-action="Index">
+                <i class="fa-solid fa-utensils me-2"></i>Tiếp tục đặt món
+            </a>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="sf-empty-card">
+                <div class="sf-empty-ic"><i class="fa-regular fa-clipboard"></i></div>
+                <div class="sf-empty-title">Bạn chưa có đơn hàng nào</div>
+                <div class="sf-empty-sub">Hãy đặt món đầu tiên để bắt đầu trải nghiệm nhé.</div>
+                <a class="btn sf-btn-primary sf-btn-lg mt-2" asp-controller="Foods" asp-action="Index">
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>Đi chọn món
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="sf-orders-list">
+                @foreach (var item in Model)
+                {
+                    <div class="sf-order-card">
+                        <div class="sf-order-top">
+                            <div class="sf-order-code">
+                                <span class="sf-muted">Mã đơn</span>
+                                <span class="sf-code">#@item.Code</span>
+                            </div>
+
+                            <span class="@StatusClass(item.OrderStatus)">
+                                <i class="@StatusIcon(item.OrderStatus) me-2"></i>@StatusText(item.OrderStatus)
+                            </span>
+                        </div>
+
+                        <div class="sf-order-mid">
+                            <div class="sf-order-meta">
+                                <div class="sf-meta-item">
+                                    <div class="sf-meta-label">Thời gian</div>
+                                    <div class="sf-meta-value">@item.CreatedAt.ToString("g")</div>
+                                </div>
+
+                                <div class="sf-meta-item">
+                                    <div class="sf-meta-label">Thanh toán</div>
+                                    <div class="sf-meta-value">
+                                        @PaymentText(item.PaymentMethod)
+                                        @if (item.PaymentStatus == "Paid")
+                                        {
+                                            <span class="sf-paid"><i class="fa-solid fa-check-circle me-1"></i>Đã thanh toán</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="sf-unpaid"><i class="fa-regular fa-circle me-1"></i>Chưa thanh toán</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sf-order-total">
+                                <div class="sf-meta-label">Tổng tiền</div>
+                                <div class="sf-total">@item.TotalAmount.ToString("N0") đ</div>
+                            </div>
+                        </div>
+
+                        <div class="sf-order-actions">
+                            <a class="btn sf-btn-ghost sf-btn-sm"
+                               asp-action="Details" asp-route-id="@item.Id">
+                                <i class="fa-solid fa-receipt me-2"></i>Xem chi tiết
+                            </a>
+
+                            <a class="btn sf-btn-primary sf-btn-sm"
+                               asp-action="Details" asp-route-id="@item.Id">
+                                <i class="fa-solid fa-location-crosshairs me-2"></i>Theo dõi đơn
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

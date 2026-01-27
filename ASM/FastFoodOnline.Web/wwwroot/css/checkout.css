@@ -1,0 +1,275 @@
+﻿/* Checkout - ShopeeFood vibe */
+
+.sf-checkout {
+    padding: 6px 0 10px;
+}
+
+/* Card common */
+.sf-card {
+    background: #fff;
+    border: 1px solid rgba(17,24,39,.12);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(17,24,39,.10);
+    overflow: hidden;
+}
+
+.sf-card-head {
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid rgba(17,24,39,.10);
+}
+
+.sf-card-title {
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+}
+
+.sf-card-body {
+    padding: 14px;
+}
+
+/* Make summary sticky on desktop */
+.sf-sticky {
+    position: sticky;
+    top: 92px;
+}
+
+@media (max-width: 992px) {
+    .sf-sticky {
+        position: static;
+        top: auto;
+    }
+}
+
+/* Fields - reuse auth style naming */
+.sf-field {
+    margin-top: 12px;
+}
+
+.sf-label {
+    font-weight: 900;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.sf-input-group {
+    position: relative;
+}
+
+.sf-input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    pointer-events: none;
+}
+
+.sf-input {
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(17,24,39,.12);
+    padding-left: 40px;
+    padding-right: 12px;
+    box-shadow: 0 10px 18px rgba(17,24,39,.05);
+}
+
+    .sf-input:focus {
+        border-color: rgba(238,77,45,.55);
+        box-shadow: 0 0 0 .25rem rgba(238,77,45,.15);
+    }
+
+.sf-textarea .sf-input-icon {
+    top: 18px;
+    transform: none;
+}
+
+.sf-textarea-input {
+    height: auto;
+    min-height: 96px;
+    padding-top: 12px;
+}
+
+/* Divider line like auth */
+.sf-divider-line {
+    margin: 14px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+    .sf-divider-line::before,
+    .sf-divider-line::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: rgba(17,24,39,.12);
+    }
+
+    .sf-divider-line span {
+        padding: 0 6px;
+    }
+
+/* Payment tiles */
+.sf-pay-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.sf-pay-tile {
+    cursor: pointer;
+    user-select: none;
+    border-radius: 16px;
+    border: 1px solid rgba(17,24,39,.12);
+    background: rgba(17,24,39,.02);
+    padding: 10px 12px;
+    transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
+}
+
+    .sf-pay-tile:hover {
+        background: rgba(238,77,45,.06);
+        border-color: rgba(238,77,45,.18);
+    }
+
+.sf-pay-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sf-pay-ui {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sf-pay-ic {
+    width: 42px;
+    height: 42px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: rgba(238,77,45,.12);
+    border: 1px solid rgba(238,77,45,.18);
+    color: #EE4D2D;
+    flex: 0 0 auto;
+}
+
+.sf-pay-brand {
+    background: #fff;
+    border: 1px solid rgba(17,24,39,.12);
+}
+
+    .sf-pay-brand img {
+        max-height: 22px;
+        max-width: 30px;
+    }
+
+.sf-pay-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.sf-pay-name {
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.sf-pay-sub {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* Selected state */
+.sf-pay-tile:has(.sf-pay-radio:checked) {
+    background: rgba(238,77,45,.10);
+    border-color: rgba(238,77,45,.22);
+    box-shadow: 0 10px 18px rgba(238,77,45,.10);
+}
+
+/* Fallback if :has not supported: use a class via JS if needed.
+   (Chrome mới OK; nếu bạn muốn hỗ trợ rộng hơn, mình sẽ thêm JS toggle class) */
+
+/* Summary */
+.sf-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sf-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(17,24,39,.03);
+    border: 1px solid rgba(17,24,39,.08);
+}
+
+.sf-summary-left {
+    min-width: 0;
+}
+
+.sf-summary-name {
+    font-weight: 900;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
+}
+
+.sf-summary-sub {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+.sf-summary-right {
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.sf-summary-line {
+    height: 1px;
+    background: rgba(17,24,39,.12);
+    margin: 2px 0;
+}
+
+.sf-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sf-summary-total {
+    padding-top: 6px;
+}
+
+.sf-total {
+    font-weight: 1000;
+    color: #EE4D2D;
+    font-size: 20px;
+}
+
+.sf-summary-note {
+    margin-top: 8px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Help box */
+.sf-help {
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(17,24,39,.03);
+    border: 1px solid rgba(17,24,39,.08);
+    color: #6b7280;
+}

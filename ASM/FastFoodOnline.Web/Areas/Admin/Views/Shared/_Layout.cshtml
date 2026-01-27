@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin FastFood</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+     <style>
+        .admin-sidebar { min-height: 100vh; background: #343a40; color: white; }
+        .admin-sidebar a { color: #adb5bd; text-decoration: none; padding: 10px 15px; display: block; }
+        .admin-sidebar a:hover, .admin-sidebar a.active { background: #495057; color: white; }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="admin-sidebar p-3" style="width: 250px;">
+            <h4 class="text-white mb-4">FastFood Admin</h4>
+            <ul class="list-unstyled components">
+                <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                <li><a asp-area="Admin" asp-controller="Categories" asp-action="Index"><i class="fas fa-list me-2"></i> Categories</a></li>
+                <li><a asp-area="Admin" asp-controller="Foods" asp-action="Index"><i class="fas fa-hamburger me-2"></i> Foods</a></li>
+                <li><a asp-area="Admin" asp-controller="Combos" asp-action="Index"><i class="fas fa-utensils me-2"></i> Combos</a></li>
+                <li><a asp-area="Admin" asp-controller="Orders" asp-action="Index"><i class="fas fa-shopping-bag me-2"></i> Orders</a></li>
+                <li><a asp-area="Admin" asp-controller="Users" asp-action="Index"><i class="fas fa-users me-2"></i> Users</a></li>
+                <li class="mt-4"><hr class="bg-light"/></li>
+                <li><a asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-arrow-left me-2"></i> Back to Site</a></li>
+            </ul>
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-grow-1 bg-light">
+             <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4">
+                 <span class="navbar-text ms-auto">
+                     Hello, @User.Identity?.Name
+                 </span>
+            </nav>
+            <div class="container-fluid p-4">
+                 <partial name="_StatusMessage" />
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
